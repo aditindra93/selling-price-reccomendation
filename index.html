@@ -1,7 +1,19 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>Kalkulator Harga Jual</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23B1281D'/%3E%3Cpath d='M12 4c.8 2.8 4.8 4.3 4.8 8.6A4.8 4.8 0 0 1 12 17.4a4.8 4.8 0 0 1-4.8-4.8C7.2 8.3 11.2 6.8 12 4z' fill='white'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;0,8..60,800&display=swap">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:var(--paper)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
 <style>
 /* Layout: broadsheet. Sticky nameplate bar closed by a double rule, one 1040px column, ledger-style input rows, hairline-ruled tables, one dark halftone "lead plate" for the key number. Red is kept for small marks only (kicker, focus underline, active tab, selected row, floating button shadow). */
 :root{
@@ -294,6 +306,8 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   .brand b{font-size:21px}
 }
 </style>
+</head>
+<body>
 
 <header class="top">
   <div class="wrap">
@@ -310,7 +324,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
         <a href="#price-reference" data-route="price-reference">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>Price Reference</a>
       </nav>
-      <div class="save" id="saveState" data-s="saved" role="status"><span class="dot"></span><span id="saveText">Tersimpan</span></div>
+      <div class="save" id="saveState" data-s="off" role="status" title="Klik untuk sinkron sekarang"><span class="dot"></span><span id="saveText">Memuat…</span></div>
     </div>
   </div>
 </header>
@@ -471,26 +485,32 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
         </div>
       </div>
       <div class="btns">
-        <button type="button" class="btn sm" id="sheetPush" hidden>Kirim ke Sheet</button>
-        <button type="button" class="btn sm" id="sheetPull" hidden>Tarik dari Sheet</button>
+        <button type="button" class="btn sm" id="sheetSync" hidden>Sinkron sekarang</button>
         <button type="button" class="btn sm" id="sheetToggle" aria-expanded="false" aria-controls="sheetForm">Atur</button>
       </div>
     </div>
     <form id="sheetForm" class="stack" hidden>
       <div class="grid2">
-        <div class="field"><label for="sheetId">Link atau ID spreadsheet</label><input id="sheetId" class="in" type="text" autocomplete="off" placeholder="https://docs.google.com/spreadsheets/d/…"></div>
-        <div class="field"><label for="sheetTab">Nama tab (opsional)</label><input id="sheetTab" class="in" type="text" autocomplete="off" placeholder="Kosongkan untuk tab pertama"></div>
+        <div class="field"><label for="sheetUrl">URL Web App Apps Script</label><input id="sheetUrl" class="in" type="url" autocomplete="off" placeholder="https://script.google.com/macros/s/…/exec"></div>
+        <div class="field"><label for="sheetKey">Kunci (jika diisi di Code.gs)</label><input id="sheetKey" class="in" type="password" autocomplete="off" placeholder="Kosongkan jika tidak memakai kunci"></div>
       </div>
-      <p class="hint">Kolom A–F diisi: Produk, Kategori, COGS (Rp/kg), Harga terbaru (USD/kg), Remarks, Diperbarui. Jika sheet sudah berisi data, pilih Tarik dari Sheet lebih dulu agar tidak tertimpa.</p>
-      <label class="switch"><input type="checkbox" id="sheetAuto"><span class="track"></span><span>Sinkron otomatis: simpan setiap perubahan dan muat pembaruan dari Sheet</span></label>
       <div class="btns">
         <button type="submit" class="btn primary">Hubungkan</button>
         <button type="button" class="btn danger" id="sheetOff" hidden>Putuskan</button>
       </div>
     </form>
+    <details class="guide" id="guide">
+      <summary>Panduan pemasangan (sekali saja)</summary>
+      <ol>
+        <li>Buat Google Sheet baru, lalu buka <code>Extensions</code> &gt; <code>Apps Script</code>.</li>
+        <li>Hapus isi bawaan, tempel seluruh isi file <code>Code.gs</code>, lalu <code>Save</code>.</li>
+        <li>Disarankan: isi <code>KUNCI</code> di baris atas kode dengan kata sandi singkat.</li>
+        <li><code>Deploy</code> &gt; <code>New deployment</code> &gt; <code>Web app</code>. Execute as <code>Me</code>, Who has access <code>Anyone</code>. Klik Deploy dan setujui izin.</li>
+        <li>Salin Web app URL (berakhiran <code>/exec</code>), tempel di kolom atas, klik Hubungkan. Ulangi di tiap perangkat, atau isi <code>SCRIPT_URL</code> di bagian atas skrip file ini agar otomatis aktif di semua perangkat.</li>
+      </ol>
+    </details>
     <div class="sheet-msg" id="sheetMsg" hidden></div>
   </div>
-
   <div class="stack" id="searchBlock">
     <div class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -540,6 +560,12 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 'use strict';
 
 /* ---------- konstanta ---------- */
+/* ===== KONFIGURASI (opsional) =====
+   Tempel URL Web App Apps Script di bawah agar sinkron otomatis aktif di semua perangkat
+   yang membuka file ini. Kosongkan jika ingin mengisinya lewat Price Reference > Atur. */
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRQ0MH1YBqR3ad1wOqPw9F8-ClmzkEWXkF0QlpDKx_wJ6tzo9h0d7xWd1-uXOyNhgY/exec';
+const KUNCI = '';   // harus sama dengan KUNCI di Code.gs (kosongkan jika tidak dipakai)
+
 const PPN = 0.11;
 const SHEETS = 'Google Sheets';
 const TIERS = [
@@ -559,10 +585,9 @@ const S = {
   est:Object.assign({},DEFAULT_EST)
 };
 let items = [];
-let cfg = {id:'',tab:'',rows:0,last:'',on:false};
+let cfg = {url:'',key:''};
 const openRows = {};
 let query = '';
-let touchedState = false, touchedItems = false;
 
 /* ---------- util ---------- */
 const $ = (s,r)=> (r||document).querySelector(s);
@@ -635,49 +660,6 @@ function estCalc(){
   return {ok,rate,buy,apac,fcl,clr,buyKg,apacKg,clrUsd,clrMt,clrKg,cogs};
 }
 
-/* ---------- penyimpanan ---------- */
-let db = null;
-const LS = 'kalkulator-harga-jual:v1:';
-const lsGet = k => { try{ return JSON.parse(localStorage.getItem(LS+k)); }catch(e){ return null; } };
-const lsSet = (k,v) => { try{ localStorage.setItem(LS+k,JSON.stringify(v)); }catch(e){} };
-
-const ready = (async()=>{
-  try{ const c=window.claude; db = c && c.use ? await c.use('db') : null; }catch(e){ db=null; }
-  setSave('saved');
-})();
-
-async function load(key){
-  await ready;
-  if(db){
-    try{ const s=await db.doc('app/'+key).get(); return s.exists ? s.data() : null; }catch(e){ return lsGet(key); }
-  }
-  return lsGet(key);
-}
-
-let inflight = 0;
-function setSave(st){
-  const el=$('#saveState'); el.dataset.s=st;
-  $('#saveText').textContent = st==='saving' ? 'Menyimpan…' : st==='error' ? 'Gagal menyimpan' : (db ? 'Tersimpan otomatis' : 'Tersimpan di perangkat ini');
-}
-const timers={}, chains={};
-function queueSave(key,get){
-  clearTimeout(timers[key]); setSave('saving');
-  timers[key]=setTimeout(()=>{
-    chains[key]=(chains[key]||Promise.resolve()).then(async()=>{
-      inflight++;
-      try{
-        await ready;
-        const data=clone(get());
-        if(db) await db.doc('app/'+key).set(data); else lsSet(key,data);
-        inflight--; if(!inflight) setSave('saved');
-      }catch(e){ inflight--; setSave('error'); }
-    });
-  },500);
-}
-const saveState = () => { touchedState=true; queueSave('state',()=>S); };
-const saveItems = () => { touchedItems=true; queueSave('products',()=>({items})); };
-const saveCfg   = () => queueSave('sheets',()=>cfg);
-
 /* ---------- binding & routing ---------- */
 function route(){
   let h=location.hash.replace('#','');
@@ -712,7 +694,7 @@ document.addEventListener('click',e=>{
   if(sb){
     const g=sb.parentElement, key=g.dataset.seg;
     S[key] = g.dataset.num ? Number(sb.dataset.v) : sb.dataset.v;
-    syncInputs(); saveState(); refresh();
+    syncInputs(); saveState(SYNC_KEYS.indexOf(key)>=0); refresh();
     if(key==='filter'||key==='sort') renderRows();
     return;
   }
@@ -843,8 +825,6 @@ function renderRows(){
   $('#rows').innerHTML = list.length ? list.map(rowHTML).join('') :
     '<li class="empty"><b>'+(searching?'Tidak ada produk yang cocok':items.length?'Tidak ada produk di kategori ini':'Belum ada produk')+'</b>'+(searching?'Coba kata kunci lain atau hapus pencarian.':items.length?'Pilih kategori lain di atas.':'Tambahkan produk pertama lewat form di atas.')+'</li>';
 }
-const findItem = id => items.find(p=>p.id===id);
-function itemsChanged(){ saveItems(); schedulePush(); }
 
 $('#rows').addEventListener('input',e=>{
   const f=e.target.dataset.f; if(!f) return;
@@ -859,12 +839,12 @@ $('#rows').addEventListener('input',e=>{
   const s=sumText(p), box=li.querySelector('.r-sum');
   box.hidden=!s; li.querySelector('.sumtxt').textContent=s;
   li.querySelector('.r-detail .cap').textContent='Terakhir diperbarui '+dateLabel(p.upd);
-  itemsChanged();
+  touch(p.id);
 });
 $('#rows').addEventListener('change',e=>{
   if(e.target.dataset.f!=='cat') return;
   const li=e.target.closest('.row'), p=findItem(li.dataset.id); if(!p) return;
-  p.cat=e.target.value; p.upd=today(); itemsChanged(); renderRows();
+  p.cat=e.target.value; p.upd=today(); touch(p.id); renderRows();
 });
 $('#rows').addEventListener('click',e=>{
   const b=e.target.closest('[data-act]'); if(!b) return;
@@ -877,7 +857,7 @@ $('#rows').addEventListener('click',e=>{
     S.cogs=String(Math.round(p.cogs)); S.src=p.name||'Price Reference'; syncInputs(); saveState(); refresh();
     location.hash='harga-jual'; toast('COGS '+(p.name||'produk')+' diterapkan ke Harga Jual');
   } else if(act==='del'){
-    if(b.dataset.armed==='1'){ items=items.filter(x=>x.id!==p.id); itemsChanged(); renderRows(); toast('Produk dihapus'); }
+    if(b.dataset.armed==='1'){ items=items.filter(x=>x.id!==p.id); drop(p.id); renderRows(); toast('Produk dihapus'); }
     else { b.dataset.armed='1'; b.textContent='Yakin hapus?'; setTimeout(()=>{ if(b.isConnected){ b.dataset.armed='0'; b.textContent='Hapus'; } },3000); }
   }
 });
@@ -889,11 +869,12 @@ $('#addForm').addEventListener('submit',e=>{
   const name=$('#aName').value.trim();
   if(!name){ $('#aName').focus(); toast('Isi nama produk dulu'); return; }
   const c=$('#aCogs').value;
-  items.unshift({id:uid(),name,cat:$('#aCat').value,cogs:c===''?null:parseFloat(c),usd:null,remarks:'',upd:today()});
+  const np={id:uid(),name,cat:$('#aCat').value,cogs:c===''?null:parseFloat(c),usd:null,remarks:'',upd:today()};
+  items.unshift(np);
   $('#aName').value=''; $('#aCogs').value='';
-  if(S.filter!=='all' && S.filter!==$('#aCat').value){ S.filter='all'; syncInputs(); saveState(); }
+  if(S.filter!=='all' && S.filter!==$('#aCat').value){ S.filter='all'; syncInputs(); saveState(false); }
   query=''; $('#qProd').value='';
-  itemsChanged(); renderRows(); $('#aName').focus(); toast('Produk ditambahkan');
+  touch(np.id); renderRows(); $('#aName').focus(); toast('Produk ditambahkan');
 });
 
 /* ---------- dateline di kepala halaman ---------- */
@@ -922,193 +903,209 @@ $('#fabSearch').addEventListener('click',()=>{
   $('#qProd').focus({preventScroll:true});
 });
 
-/* ---------- Google Sheets (lewat konektor Claude) ---------- */
-let mcpP=null, mcpOK=null;
-function getMcp(){
-  if(!mcpP) mcpP=(window.claude&&window.claude.use ? window.claude.use('mcp') : Promise.resolve(null)).catch(()=>null).then(m=>{ mcpOK=!!m; sheetUI(); return m; });
-  return mcpP;
+/* ---------- penyimpanan & sinkron Google Sheet (Apps Script) ----------
+   Alur: semua perubahan langsung disimpan di perangkat (cache), masuk antrean, lalu dikirim
+   ke Apps Script. Tiap sinkron membawa balik data terbaru dari Sheet, jadi semua perangkat
+   akhirnya sama. Jika offline, antrean tetap tersimpan dan dikirim saat koneksi kembali. */
+const SYNC_KEYS = ['cogs','biaya','step','basis','mode','tMargin','tPrice','pin','src','est'];
+const LSK = 'kalkulator-harga-jual:v2:';
+const lsGet = k => { try{ return JSON.parse(localStorage.getItem(LSK+k)); }catch(e){ return null; } };
+const lsSet = (k,v) => { try{ localStorage.setItem(LSK+k,JSON.stringify(v)); }catch(e){} };
+let pending = {}, stateDirty = 0, ver = Date.now();
+let syncing = false, resync = false, flushT = null, lastSync = 0, deferredRender = false, sheetErrShown = false;
+
+const normItem = r => ({
+  id:String(r.id||uid()), name:String(r.name==null?'':r.name), cat:r.cat==='industrial'?'industrial':'consumer',
+  cogs:num(r.cogs), usd:num(r.usd), remarks:String(r.remarks==null?'':r.remarks), upd:String(r.upd||'')
+});
+const sigOf = p => [p.id,p.name,p.cat,p.cogs,p.usd,p.remarks,p.upd].join('\u0001');
+const npend = () => Object.keys(pending).length + (stateDirty?1:0);
+const timeLabel = t => new Date(t).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+const findItem = id => items.find(p=>p.id===id);
+
+function lsSave(){ lsSet('cache',{items:items,S:S,pending:pending,stateDirty:stateDirty}); }
+function setSave(st){
+  const el=$('#saveState'); el.dataset.s=st;
+  $('#saveText').textContent = st==='off' ? 'Hanya di perangkat ini' : st==='saving' ? 'Menyimpan…' : st==='error' ? 'Offline, akan dicoba lagi' : 'Tersinkron';
 }
-const schemaCache={};
-async function toolInput(mcp,tool,f){
-  if(!schemaCache[tool]){
-    try{ const d=await mcp.describeTool(SHEETS,tool); schemaCache[tool]=(d&&d.inputSchema)||{}; }catch(e){ schemaCache[tool]={}; }
-  }
-  const props=Object.keys(schemaCache[tool].properties||{});
-  const pick=(re,fb)=>props.find(k=>re.test(k))||fb;
-  const input={};
-  input[pick(/spreadsheet.*id|^file.*id$|^id$/i,'spreadsheetId')]=f.id;
-  input[pick(/^range$|^ranges?$|a1/i,'range')]=f.range;
-  if(f.values) input[pick(/^values$|^data$|^rows$/i,'values')]=f.values;
-  if(props.indexOf('valueInputOption')>=0) input.valueInputOption='USER_ENTERED';
-  return input;
+function pickState(){ const o={}; SYNC_KEYS.forEach(k=>{ o[k]=k==='est'?Object.assign({},S.est):S[k]; }); return o; }
+function applyRemoteState(st){
+  SYNC_KEYS.forEach(k=>{ if(st[k]===undefined) return; S[k]=k==='est'?Object.assign({},DEFAULT_EST,st.est||{}):st[k]; });
+  syncInputs(); refresh(); lsSave();
+}
+
+/* penanda perubahan */
+function saveState(sync){ if(sync!==false) stateDirty=++ver; lsSave(); if(sync!==false) scheduleFlush(); }
+function touch(id){ pending[id]={op:'upsert',n:++ver}; lsSave(); scheduleFlush(); }
+function drop(id){ pending[id]={op:'delete',n:++ver}; lsSave(); scheduleFlush(); }
+function scheduleFlush(now){
+  if(!cfg.url){ setSave('off'); updateSheetUI(); return; }
+  setSave('saving'); updateSheetUI();
+  clearTimeout(flushT); flushT=setTimeout(()=>sync(),now?30:900);
+}
+
+/* komunikasi dengan Apps Script (POST teks biasa agar tidak memicu preflight CORS) */
+async function api(payload,opts){
+  const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),30000);
+  let res;
+  try{
+    res=await fetch(cfg.url,{method:'POST',body:JSON.stringify(Object.assign({key:cfg.key},payload)),signal:ctrl.signal,keepalive:!!(opts&&opts.keepalive)});
+  } finally { clearTimeout(t); }
+  const txt=await res.text();
+  let j; try{ j=JSON.parse(txt); }catch(e){ throw {code:'bad'}; }
+  if(j && j.ok===false) throw {code:j.code||'server',message:j.error};
+  /* balasan harus dari Code.gs Kalkulator dan memuat daftar produk; jika tidak, jangan sentuh data lokal */
+  if(!j || j.ok!==true || j.app!=='kalkulator' || !Array.isArray(j.products)) throw {code:'wrong',snippet:txt.slice(0,140)};
+  return j;
 }
 function errText(e){
   const c=e&&e.code;
-  if(c==='server_not_connected') return 'Google Sheets belum tersambung di akun Claude Anda. Tambahkan lewat Pengaturan → Konektor di claude.ai, lalu coba lagi.';
-  if(c==='needs_reauth') return 'Koneksi Google Sheets perlu diautentikasi ulang di Pengaturan → Konektor.';
-  if(c==='approval_required'||c==='not_in_manifest'||c==='consent_required') return 'Halaman ini belum diizinkan mengakses Google Sheets. Izinkan saat diminta, lalu klik lagi.';
-  if(c==='blocked_by_policy') return 'Organisasi Anda memblokir akses ke Google Sheets.';
-  if(c==='selection_required') return 'Pilih salah satu koneksi Google Sheets saat diminta, lalu coba lagi.';
-  if(c==='server_unavailable') return 'Google Sheets sedang tidak merespons. Coba lagi sebentar lagi.';
-  if(c==='tool_error') return 'Google Sheets menolak permintaan ('+String(e.message||'').slice(0,140)+'). Periksa ID spreadsheet, nama tab, dan izin edit.';
-  return 'Gagal terhubung ke Google Sheets'+(e&&e.message?' ('+String(e.message).slice(0,120)+')':'')+'.';
+  if(c==='auth') return 'Kunci tidak cocok dengan yang ada di Code.gs.';
+  if(c==='wrong') return 'URL ini bukan skrip Kalkulator Harga Jual versi terbaru (mungkin URL CRM atau Code.gs lama). Balasan yang diterima: '+(e.snippet||'kosong')+'. Tempel Code.gs terbaru di project Apps Script terpisah, lalu Deploy sebagai New version. Data di perangkat ini tidak diubah.';
+  if(c==='missing') return 'Google Sheet tidak menyimpan '+e.count+' produk yang dikirim. Data tetap aman di perangkat ini dan akan dikirim ulang. Pastikan Code.gs terbaru sudah di-deploy dan akun Anda punya izin edit pada Sheet.';
+  if(c==='bad') return 'Respons Apps Script tidak terbaca. Pastikan URL berakhiran /exec dan akses web app diatur ke "Anyone".';
+  if(c==='server') return 'Apps Script menolak permintaan'+(e.message?' ('+String(e.message).slice(0,120)+')':'')+'.';
+  if(e&&e.name==='AbortError') return 'Koneksi ke Google Sheet terlalu lama. Akan dicoba lagi.';
+  return 'Tidak bisa menjangkau Google Sheet. Periksa koneksi internet, atau pastikan akses web app diatur ke "Anyone".';
 }
-function findRows(x){
-  if(Array.isArray(x) && x.every(r=>Array.isArray(r))) return x;
-  if(typeof x==='string'){ try{ return findRows(JSON.parse(x)); }catch(e){ return null; } }
-  if(x && typeof x==='object'){ for(const k of Object.keys(x)){ const r=findRows(x[k]); if(r) return r; } }
-  return null;
-}
-const parseSheetId = s => { s=String(s||'').trim(); const m=s.match(/\/d\/([A-Za-z0-9_-]+)/); if(m) return m[1]; return /^[A-Za-z0-9_-]{20,}$/.test(s)?s:''; };
-const rangeOf = (last) => (cfg.tab ? "'"+cfg.tab.replace(/'/g,"''")+"'!" : '') + 'A1:F'+last;
-const toRow = p => [p.name, catLabel(p.cat), p.cogs==null?'':p.cogs, p.usd==null?'':p.usd, p.remarks||'', p.upd||''];
-const timeLabel = iso => { const d=new Date(iso); return isNaN(d)?'':d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}); };
 
-function sheetMsg(text,kind,actions){
-  const box=$('#sheetMsg');
-  if(!text){ box.hidden=true; box.innerHTML=''; return; }
-  box.hidden=false; box.dataset.k=kind||''; box.innerHTML='<span>'+esc(text)+'</span>';
-  if(actions&&actions.length){
-    const w=document.createElement('div'); w.className='btns';
-    actions.forEach(a=>{ const b=document.createElement('button'); b.type='button'; b.className='btn sm'+(a.primary?' primary':''); b.textContent=a.label; b.addEventListener('click',a.fn); w.appendChild(b); });
-    box.appendChild(w);
+/* gabungkan data dari Sheet; baris yang masih punya perubahan belum terkirim tetap versi lokal */
+function mergeRemote(list){
+  const next=[], seen={};
+  list.forEach(r=>{
+    const pd=pending[r.id];
+    if(pd && pd.op==='delete') return;
+    seen[r.id]=1;
+    const loc = pd && pd.op==='upsert' ? findItem(r.id) : null;
+    next.push(loc || normItem(r));
+  });
+  items.forEach(p=>{ const pd=pending[p.id]; if(!seen[p.id] && pd && pd.op==='upsert') next.unshift(p); });
+  const same = next.length===items.length && next.every((p,i)=>sigOf(p)===sigOf(items[i]));
+  items=next; lsSave();
+  if(!same){
+    const ae=document.activeElement;
+    if(ae && ae.closest && ae.closest('#rows')) deferredRender=true; else renderRows();
   }
 }
-function sheetUI(){
-  const st=$('#sheetStatus'), conn=!!cfg.id;
-  $('#sheetPush').hidden=!(conn&&mcpOK); $('#sheetPull').hidden=!(conn&&mcpOK);
-  $('#sheetOff').hidden=!conn; $('#sheetAuto').checked=!!cfg.on;
-  $('#sheetToggle').hidden = mcpOK===false;
-  if(mcpOK===false) st.textContent='Sinkron Google Sheet aktif saat halaman dibuka di Claude. Data tetap tersimpan otomatis di sini.';
-  else if(!conn) st.textContent='Belum terhubung. Klik Atur untuk memilih spreadsheet.';
-  else st.textContent='Terhubung · '+(cfg.on?'sinkron otomatis aktif':'sinkron otomatis mati')+(cfg.last?' · terakhir '+timeLabel(cfg.last):'');
+
+async function sync(opts){
+  opts=opts||{};
+  if(!cfg.url) return false;
+  if(syncing){ resync=true; return false; }
+  syncing=true; clearTimeout(flushT);
+  const sent={}, ops=[];
+  Object.keys(pending).forEach(id=>{
+    const pd=pending[id]; sent[id]=pd.n;
+    if(pd.op==='delete') ops.push({op:'delete',id:id});
+    else { const it=findItem(id); if(it) ops.push({op:'upsert',item:it}); }
+  });
+  const sentState=stateDirty;
+  if(ops.length||sentState) setSave('saving');
+  let ok=false;
+  try{
+    const payload={action:'sync',ops:ops}; if(sentState) payload.state=pickState();
+    const j=await api(payload,{keepalive:opts.keepalive});
+    /* semua produk yang baru dikirim harus ada di balasan; jika tidak, anggap gagal dan simpan antrean */
+    const have={}; j.products.forEach(r=>{ have[String(r.id)]=1; });
+    const miss=ops.filter(o=>o.op==='upsert' && !have[String(o.item.id)]).length;
+    if(miss) throw {code:'missing',count:miss};
+    Object.keys(sent).forEach(id=>{ if(pending[id] && pending[id].n===sent[id]) delete pending[id]; });
+    if(sentState && stateDirty===sentState) stateDirty=0;
+    mergeRemote(j.products||[]);
+    if(opts.applyState && j.state && !stateDirty) applyRemoteState(j.state);
+    lsSave(); lastSync=Date.now(); ok=true;
+    setSave(npend()?'saving':'saved');
+    if(sheetErrShown){ sheetMsg(''); sheetErrShown=false; }
+  }catch(err){
+    setSave('error'); sheetMsg(errText(err),'err'); sheetErrShown=true;
+  }
+  syncing=false; updateSheetUI();
+  if(resync){ resync=false; scheduleFlush(true); }
+  return ok;
+}
+async function manualSync(){
+  if(!cfg.url){ toast('Hubungkan Google Sheet di halaman Price Reference dulu'); return; }
+  const ok=await sync({applyState:true});
+  toast(ok?'Sinkron selesai':'Sinkron gagal, data tetap aman di perangkat ini');
+}
+
+/* ---------- kartu Google Sheet ---------- */
+function sheetMsg(text,kind){
+  const box=$('#sheetMsg');
+  if(!text){ box.hidden=true; box.textContent=''; return; }
+  box.hidden=false; box.dataset.k=kind||''; box.textContent=text;
+}
+function updateSheetUI(){
+  const conn=!!cfg.url, n=npend();
+  $('#sheetSync').hidden=!conn; $('#sheetOff').hidden=!conn||!!SCRIPT_URL;
+  $('#sheetStatus').textContent = !conn
+    ? 'Belum terhubung. Data hanya tersimpan di perangkat ini. Klik Atur untuk menghubungkan Google Sheet.'
+    : 'Terhubung ke Google Sheet'+(lastSync?' · sinkron terakhir '+timeLabel(lastSync):'')+(n?' · '+n+' perubahan menunggu dikirim':'');
+  if(!conn) setSave('off');
 }
 $('#sheetToggle').addEventListener('click',()=>{
   const f=$('#sheetForm'), open=f.hidden;
   f.hidden=!open; $('#sheetToggle').setAttribute('aria-expanded',String(open));
-  if(open){ $('#sheetId').value=cfg.id||''; $('#sheetTab').value=cfg.tab||''; }
+  if(open){ $('#sheetUrl').value=cfg.url||''; $('#sheetKey').value=cfg.key||''; }
 });
 $('#sheetForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  const id=parseSheetId($('#sheetId').value);
-  if(!id){ sheetMsg('Link atau ID spreadsheet belum valid. Tempel link lengkap dari Google Sheets.','err'); return; }
-  const prev={id:cfg.id,tab:cfg.tab};
-  cfg.id=id; cfg.tab=$('#sheetTab').value.trim();
-  sheetMsg('Memeriksa akses ke spreadsheet…');
+  const url=$('#sheetUrl').value.trim(), key=$('#sheetKey').value;
+  if(!/^https:\/\/script\.google\.com\/.+\/exec/.test(url)){ sheetMsg('URL belum valid. Salin Web app URL dari Apps Script, yang berakhiran /exec.','err'); return; }
+  const prev={url:cfg.url,key:cfg.key};
+  cfg.url=url; cfg.key=key;
+  sheetMsg('Menguji koneksi…');
   try{
-    const mcp=await getMcp(); if(!mcp) throw {code:'server_not_connected'};
-    const input=await toolInput(mcp,'get_values',{id,range:rangeOf(3)});
-    const r=await mcp.callTool(SHEETS,'get_values',input,{cache:false});
-    const rows=findRows(r.payload)||[];
-    saveCfg(); sheetUI(); $('#sheetForm').hidden=true; $('#sheetToggle').setAttribute('aria-expanded','false');
-    sheetMsg(rows.length ? 'Terhubung. Sheet ini sudah berisi data. Tarik dulu jika ingin memakainya, atau kirim untuk menimpanya.' : 'Terhubung. Sheet masih kosong. Kirim data di sini ke Sheet untuk memulai.','ok',[
-      {label:'Kirim ke Sheet',primary:!rows.length,fn:()=>pushSheet(true)},
-      {label:'Tarik dari Sheet',primary:!!rows.length,fn:pullSheet}
-    ]);
-  }catch(err){ cfg.id=prev.id; cfg.tab=prev.tab; sheetMsg(errText(err),'err'); sheetUI(); }
+    const j=await api({action:'sync',ops:[]});
+    lsSet('cfg',{url:url,key:key});
+    items.forEach(p=>{ if(!pending[p.id]) pending[p.id]={op:'upsert',n:++ver}; });
+    if(j.state) applyRemoteState(j.state); else stateDirty=++ver;
+    lsSave();
+    $('#sheetForm').hidden=true; $('#sheetToggle').setAttribute('aria-expanded','false');
+    sheetMsg('Terhubung. '+(items.length?items.length+' produk di perangkat ini ikut diunggah ke Sheet.':'Data di Sheet akan tampil di semua perangkat.'),'ok');
+    sheetErrShown=false;
+    updateSheetUI();
+    await sync({applyState:true});
+  }catch(err){ cfg.url=prev.url; cfg.key=prev.key; sheetMsg(errText(err),'err'); updateSheetUI(); }
 });
 $('#sheetOff').addEventListener('click',()=>{
-  cfg={id:'',tab:'',rows:0,last:'',on:false}; saveCfg(); sheetUI(); $('#sheetId').value=''; $('#sheetTab').value=''; sheetMsg('Koneksi diputus. Data di Sheet tidak diubah.','ok');
+  cfg.url=''; cfg.key=''; lsSet('cfg',{url:'',key:''}); updateSheetUI();
+  sheetMsg('Koneksi diputus. Data di Sheet tidak diubah, data di perangkat ini tetap ada.','ok');
 });
-$('#sheetAuto').addEventListener('change',e=>{ cfg.on=e.target.checked; saveCfg(); sheetUI(); if(cfg.on) schedulePush(true); });
-$('#sheetPush').addEventListener('click',()=>pushSheet(true));
-$('#sheetPull').addEventListener('click',pullSheet);
+$('#sheetSync').addEventListener('click',manualSync);
+$('#saveState').addEventListener('click',manualSync);
 
-let pushing=false, pushAgain=false, pushT, pushPending=false, lastPull=0;
-function schedulePush(now){
-  if(!cfg.id||!cfg.on||!mcpOK) return;
-  pushPending=true; clearTimeout(pushT); pushT=setTimeout(()=>pushSheet(false),now?200:2000);
-}
-async function pushSheet(manual){
-  if(!cfg.id) return;
-  if(pushing){ pushAgain=true; return; }
-  pushing=true; pushPending=false;
-  $('#sheetStatus').textContent='Menyimpan ke Google Sheet…';
-  try{
-    const mcp=await getMcp(); if(!mcp) throw {code:'server_not_connected'};
-    const rows=[HEADER].concat(items.map(toRow));
-    const total=Math.max(rows.length,cfg.rows||0);
-    while(rows.length<total) rows.push(['','','','','','']);
-    const input=await toolInput(mcp,'update_values',{id:cfg.id,range:rangeOf(total),values:rows});
-    await mcp.callTool(SHEETS,'update_values',input,{cache:false});
-    cfg.rows=items.length+1; cfg.last=new Date().toISOString();
-    if(manual && !cfg.on){ cfg.on=true; }
-    saveCfg(); sheetUI();
-    if(manual) sheetMsg('Berhasil dikirim: '+items.length+' produk. Simpan otomatis ke Sheet aktif.','ok');
-  }catch(err){
-    $('#sheetStatus').textContent='Gagal menyimpan ke Sheet.';
-    sheetMsg(errText(err),'err',[{label:'Coba lagi',fn:()=>pushSheet(true)}]);
-  }
-  pushing=false;
-  if(pushAgain){ pushAgain=false; schedulePush(); }
-}
-async function pullSheet(){
-  if(!cfg.id) return;
-  sheetMsg('Mengambil data dari Sheet…');
-  try{
-    const mcp=await getMcp(); if(!mcp) throw {code:'server_not_connected'};
-    const input=await toolInput(mcp,'get_values',{id:cfg.id,range:rangeOf(2000)});
-    const r=await mcp.callTool(SHEETS,'get_values',input,{cache:false});
-    let rows=findRows(r.payload)||[];
-    if(rows.length && /produk|product|nama|name/i.test(String(rows[0][0]||''))) rows=rows.slice(1);
-    const incoming=rows.filter(x=>String(x[0]==null?'':x[0]).trim()).map(x=>({
-      id:uid(), name:String(x[0]).trim(), cat:/ind/i.test(String(x[1]||''))?'industrial':'consumer',
-      cogs:num(x[2]), usd:num(x[3]), remarks:String(x[4]==null?'':x[4]), upd:String(x[5]||'')
-    }));
-    if(!incoming.length){ sheetMsg('Sheet tidak berisi produk di kolom A–F. Data di sini tidak diubah.',''); return; }
-    const apply=()=>{
-      items=incoming; if(!cfg.on) cfg.on=true; cfg.rows=incoming.length+1; cfg.last=new Date().toISOString();
-      saveItems(); saveCfg(); renderRows(); sheetUI(); sheetMsg('Berhasil menarik '+incoming.length+' produk dari Sheet.','ok');
-    };
-    if(items.length) sheetMsg('Ganti '+items.length+' produk di sini dengan '+incoming.length+' baris dari Sheet?','',[{label:'Ganti data',primary:true,fn:apply},{label:'Batal',fn:()=>sheetMsg('')}]);
-    else apply();
-  }catch(err){ sheetMsg(errText(err),'err'); }
-}
+/* tampilkan pembaruan yang tertunda setelah selesai mengetik di baris */
+$('#rows').addEventListener('focusout',()=>{
+  if(!deferredRender) return;
+  setTimeout(()=>{ const ae=document.activeElement; if(!(ae && ae.closest && ae.closest('#rows'))){ deferredRender=false; renderRows(); } },0);
+});
 
-/* muat pembaruan dari Sheet saat halaman dibuka atau kembali aktif */
-async function autoPull(force){
-  if(!cfg.id||!cfg.on||pushing||pushPending) return;
-  if(!force && Date.now()-lastPull<60000) return;
-  lastPull=Date.now();
-  try{
-    const mcp=await getMcp(); if(!mcp) return;
-    const input=await toolInput(mcp,'get_values',{id:cfg.id,range:rangeOf(2000)});
-    const r=await mcp.callTool(SHEETS,'get_values',input,{cache:false});
-    let rows=findRows(r.payload); if(!rows) return;
-    if(rows.length && /produk|product|nama|name/i.test(String(rows[0][0]||''))) rows=rows.slice(1);
-    const incoming=rows.filter(x=>String(x[0]==null?'':x[0]).trim()).map(x=>({
-      id:uid(), name:String(x[0]).trim(), cat:/ind/i.test(String(x[1]||''))?'industrial':'consumer',
-      cogs:num(x[2]), usd:num(x[3]), remarks:String(x[4]==null?'':x[4]), upd:String(x[5]||'')
-    }));
-    if(pushing||pushPending) return;
-    if(!incoming.length){ if(items.length) schedulePush(true); return; }
-    const sig=a=>JSON.stringify(a.map(p=>[p.name,p.cat,p.cogs==null?null:p.cogs,p.usd==null?null:p.usd,p.remarks||'']));
-    if(sig(incoming)===sig(items)) return;
-    const ae=document.activeElement;
-    if(ae && ae.closest && ae.closest('#rows')) return;
-    const iso=/^\d{4}-\d{2}-\d{2}$/;
-    incoming.forEach(p=>{ if(!iso.test(p.upd)){ const old=items.find(o=>o.name===p.name); p.upd=old?old.upd:''; } });
-    items=incoming; cfg.rows=incoming.length+1; saveItems(); saveCfg(); renderRows(); toast('Data diperbarui dari Google Sheet');
-  }catch(err){}
-}
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden) autoPull(); });
+/* sinkron berkala, saat kembali ke tab, saat online lagi, dan saat tab ditutup */
+document.addEventListener('visibilitychange',()=>{
+  if(!cfg.url) return;
+  if(document.hidden){ if(npend()) sync({keepalive:true}); } else sync({applyState:true});
+});
+window.addEventListener('online',()=>{ if(cfg.url) sync(); });
+setInterval(()=>{ if(!document.hidden && cfg.url && !syncing) sync(); },30000);
 
 /* ---------- mulai ---------- */
-async function hydrate(){
-  const [st,pr,sh]=await Promise.all([load('state'),load('products'),load('sheets')]);
-  if(st && !touchedState){
-    const est=Object.assign({},DEFAULT_EST,st.est||{});
-    Object.assign(S,st); S.est=est;
+function boot(){
+  const c=lsGet('cache');
+  if(c){
+    if(Array.isArray(c.items)) items=c.items.map(normItem);
+    if(c.S){ const est=Object.assign({},DEFAULT_EST,c.S.est||{}); Object.assign(S,c.S); S.est=est; }
+    if(c.pending && typeof c.pending==='object') pending=c.pending;
+    stateDirty=c.stateDirty||0;
   }
-  if(pr && Array.isArray(pr.items) && !touchedItems){
-    items=pr.items.map(p=>({id:p.id||uid(),name:p.name||'',cat:p.cat==='industrial'?'industrial':'consumer',cogs:p.cogs==null?null:p.cogs,usd:p.usd==null?null:p.usd,remarks:p.remarks||'',upd:p.upd||''}));
-  }
-  if(sh) cfg=Object.assign(cfg,sh);
-  syncInputs(); refresh(); renderRows(); sheetUI(); getMcp().then(()=>autoPull(true));
+  const sc=lsGet('cfg')||{};
+  cfg.url=SCRIPT_URL||sc.url||''; cfg.key=KUNCI||sc.key||'';
+  syncInputs(); refresh(); renderRows(); updateSheetUI();
+  if(!cfg.url){ $('#guide').open=true; setSave('off'); }
+  else { setSave(npend()?'saving':'saved'); sync({applyState:true}); }
 }
-route(); syncInputs(); refresh(); renderRows(); sheetUI();
-hydrate();
+route(); boot();
 })();
 </script>
-
-</body></html>
+</body>
+</html>
