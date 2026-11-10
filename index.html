@@ -336,14 +336,14 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Per kg &middot; PPN 11%</span><span class="dateline"></span></div>
     <h2 id="h-harga">Selling Price Recommendation</h2>
-    <p>Masukkan COGS, lalu lihat harga jual di tiap tingkat margin. Semua angka per kg. Angka awal hanya contoh.</p>
+    <p>Masukkan COGS, lalu lihat harga jual di tiap tingkat margin. Semua angka per kg.</p>
   </div>
 
   <div class="split">
     <div class="stack">
       <div class="group">
-        <label class="frow" for="inCogs"><span class="k">COGS produk</span><span class="v"><span class="u">Rp</span><input id="inCogs" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
-        <label class="frow" for="inBiaya"><span class="k">Biaya lain (kemasan / ongkir)</span><span class="v"><span class="u">Rp</span><input id="inBiaya" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
+        <label class="frow" for="inCogs"><span class="k">COGS Produk</span><span class="v"><span class="u">Rp</span><input id="inCogs" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
+        <label class="frow" for="inBiaya"><span class="k">Biaya Lain (kemasan/ongkir/etc.)</span><span class="v"><span class="u">Rp</span><input id="inBiaya" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
         <div class="frow static"><span class="k" id="lblStep">Pembulatan ke atas</span>
           <div class="v"><div class="seg" role="group" aria-labelledby="lblStep" data-seg="step" data-num="1">
             <button type="button" data-v="0">Tanpa</button><button type="button" data-v="500">500</button><button type="button" data-v="1000">1.000</button>
@@ -367,7 +367,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="stack section">
     <div class="sec-head">
       <div>
-        <h3 class="h3">Rekomendasi harga jual</h3>
+        <h3 class="h3">Rekomendasi Harga Jual</h3>
         <p class="sub" id="basisNote"></p>
       </div>
       <div class="seg" role="group" aria-label="Dasar perhitungan margin" data-seg="basis">
@@ -379,7 +379,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 
   <div class="card" id="calcPanel">
     <div class="card-head">
-      <h3 class="h3">Kalkulator target</h3>
+      <h3 class="h3">Kalkulator Target</h3>
       <div class="seg" role="group" aria-label="Mode kalkulator" data-seg="mode">
         <button type="button" data-v="margin">Target margin</button><button type="button" data-v="price">Target harga jual</button>
       </div>
@@ -390,9 +390,9 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
           <label class="frow" id="fMargin" for="inTMargin"><span class="k">Target margin</span><span class="v"><input id="inTMargin" type="number" inputmode="decimal" step="any"><span class="u">%</span></span></label>
           <div id="fPrice" hidden>
             <label class="frow" for="inTPrice"><span class="k">Target harga jual</span><span class="v"><span class="u">Rp</span><input id="inTPrice" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
-            <div class="frow static"><span class="k" id="lblPin">Harga yang dimasukkan</span>
+            <div class="frow static"><span class="k" id="lblPin">Pajak</span>
               <div class="v"><div class="seg" role="group" aria-labelledby="lblPin" data-seg="pin">
-                <button type="button" data-v="0">Sebelum PPN</button><button type="button" data-v="1">Incl. PPN</button>
+                <button type="button" data-v="0">Excl. PPN</button><button type="button" data-v="1">Incl. PPN</button>
               </div></div>
             </div>
           </div>
@@ -411,7 +411,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 
   <div class="stack section">
     <div>
-      <h3 class="h3">Tabel margin 1% – 30%</h3>
+      <h3 class="h3">Tabel Margin (1% – 30%)</h3>
       <p class="sub">Baris yang sesuai dengan kalkulator di atas diberi warna.</p>
     </div>
     <div class="card flush">
@@ -430,7 +430,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Impor &middot; USD ke Rupiah</span><span class="dateline"></span></div>
     <h2 id="h-est">Estimasi COGS</h2>
-    <p>Hitung COGS barang impor per kg, lalu terapkan langsung ke halaman Harga Jual. Angka awal hanya contoh.</p>
+    <p>Hitung COGS barang impor per kg, lalu terapkan langsung ke halaman Harga Jual.</p>
   </div>
 
   <div class="split">
@@ -540,7 +540,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
       </div>
       <div class="sortwrap"><span id="lblSort">Urutkan produk</span>
         <div class="seg" role="group" aria-labelledby="lblSort" data-seg="sort">
-          <button type="button" data-v="new">Urutan awal</button><button type="button" data-v="az">A–Z</button><button type="button" data-v="za">Z–A</button>
+          <button type="button" data-v="az">A–Z</button><button type="button" data-v="za">Z–A</button><button type="button" data-v="new">Terbaru Ditambahkan</button>
         </div>
       </div>
     </div>
