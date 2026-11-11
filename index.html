@@ -336,7 +336,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Per kg &middot; PPN 11%</span><span class="dateline"></span></div>
     <h2 id="h-harga">Selling Price Recommendation</h2>
-    <p>Masukkan COGS, lalu lihat harga jual di tiap tingkat margin. Semua angka per kg.</p>
+    <p>Masukkan COGS, lalu lihat rekomendasi harga jual di tiap tingkat margin. Semua angka per kg.</p>
   </div>
 
   <div class="split">
@@ -346,7 +346,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
         <label class="frow" for="inBiaya"><span class="k">Biaya Lain (kemasan/ongkir/etc.)</span><span class="v"><span class="u">Rp</span><input id="inBiaya" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
         <div class="frow static"><span class="k" id="lblStep">Pembulatan ke atas</span>
           <div class="v"><div class="seg" role="group" aria-labelledby="lblStep" data-seg="step" data-num="1">
-            <button type="button" data-v="0">Tanpa</button><button type="button" data-v="500">500</button><button type="button" data-v="1000">1.000</button>
+            <button type="button" data-v="0">0</button><button type="button" data-v="500">500</button><button type="button" data-v="1000">1.000</button>
           </div></div>
         </div>
       </div>
@@ -430,17 +430,17 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Impor &middot; USD ke Rupiah</span><span class="dateline"></span></div>
     <h2 id="h-est">Estimasi COGS</h2>
-    <p>Hitung COGS barang impor per kg, lalu terapkan langsung ke halaman Harga Jual.</p>
+    <p>Hitung estimasi COGS barang impor, based on full container load. Untuk lebih detail bisa ditanyakan ke Supply Chain Manager.</p>
   </div>
 
   <div class="split">
     <div class="stack">
       <div class="group">
         <label class="frow" for="eRate"><span class="k">Rate USD/IDR</span><span class="v"><span class="u">Rp</span><input id="eRate" type="number" inputmode="decimal" min="0" step="any"></span></label>
-        <label class="frow" for="eBuy"><span class="k">Buy price</span><span class="v"><span class="u">$</span><input id="eBuy" type="number" inputmode="decimal" min="0" step="any"><span class="u">/MT</span></span></label>
-        <label class="frow" for="eFcl"><span class="k">Full container load</span><span class="v"><input id="eFcl" type="number" inputmode="decimal" min="0" step="any"><span class="u">MT</span></span></label>
+        <label class="frow" for="eBuy"><span class="k">Buy Price</span><span class="v"><span class="u">$</span><input id="eBuy" type="number" inputmode="decimal" min="0" step="any"><span class="u">/MT</span></span></label>
+        <label class="frow" for="eFcl"><span class="k">Full Container Load</span><span class="v"><input id="eFcl" type="number" inputmode="decimal" min="0" step="any"><span class="u">MT</span></span></label>
         <label class="frow" for="eApac"><span class="k">Margin APAC</span><span class="v"><span class="u">$</span><input id="eApac" type="number" inputmode="decimal" min="0" step="any"><span class="u">/MT</span></span></label>
-        <label class="frow" for="eClear"><span class="k">Estimasi clearance cost</span><span class="v"><span class="u">Rp</span><input id="eClear" type="number" inputmode="decimal" min="0" step="any"></span></label>
+        <label class="frow" for="eClear"><span class="k">Estimasi Clearance Cost</span><span class="v"><span class="u">Rp</span><input id="eClear" type="number" inputmode="decimal" min="0" step="any"></span></label>
       </div>
       <div class="warn" id="estWarn" role="alert"></div>
     </div>
@@ -455,7 +455,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   </div>
 
   <div class="stack section">
-    <h3 class="h3">Rincian perhitungan</h3>
+    <h3 class="h3">Rincian Perhitungan</h3>
     <div class="card flush">
       <div class="tscroll">
         <table class="trail">
@@ -472,7 +472,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Referensi COGS &middot; Google Sheet</span><span class="dateline"></span></div>
     <h2 id="h-ref">Price Reference</h2>
-    <p>Daftar COGS per produk. Terapkan satu baris ke halaman Harga Jual, atau simpan update harga terbaru dan remarks di tiap baris.</p>
+    <p>Daftar COGS per produk. Data diambil dari Inventory Report terupdate, dengan acuan harga tertinggi dari physical stock yang masih ada. Update harga terbaru sebagai acuan harga stock berikutnya.</p>
   </div>
 
   <div class="card" id="sheetBox">
