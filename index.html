@@ -246,13 +246,13 @@ tr[aria-current="true"] td:first-child{font-weight:700;box-shadow:inset 3px 0 0 
 .search .clear:hover{color:var(--red);border-color:var(--red)}
 input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
 
-.addform{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.2fr) minmax(0,1.2fr) auto;gap:14px;align-items:end}
+.addform{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1.4fr) minmax(0,1.1fr) minmax(0,1.1fr) auto;gap:14px;align-items:end}
 .addform .btn{height:44px}
 .filters{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .sortwrap{display:flex;align-items:center;gap:10px;font:600 11.5px var(--text);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);flex-wrap:wrap}
 .rows{list-style:none;margin:0;padding:0}
-.rhead{display:grid;grid-template-columns:minmax(0,2fr) 170px 200px 250px;gap:12px;padding:12px 18px;font:600 11px var(--text);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);border-bottom:2px solid var(--ink)}
-.row{display:grid;grid-template-columns:minmax(0,2fr) 170px 200px 250px;gap:12px;align-items:center;padding:14px 18px}
+.rhead{display:grid;grid-template-columns:minmax(0,2fr) 170px 200px 300px;gap:12px;padding:12px 18px;font:600 11px var(--text);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);border-bottom:2px solid var(--ink)}
+.row{display:grid;grid-template-columns:minmax(0,2fr) 170px 200px 300px;gap:12px;align-items:center;padding:14px 18px}
 .row+.row{border-top:1px solid var(--rule)}
 .r-act{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
 .r-sum{grid-column:1/-1;font:italic 400 15.5px var(--text);color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -278,7 +278,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   .calc{grid-template-columns:1fr;gap:20px}
   .tiers{grid-template-columns:repeat(2,minmax(0,1fr))}
   .addform{grid-template-columns:1fr 1fr}
-  .addform .f-name{grid-column:1/-1}
+  .addform .f-name,.addform .f-prin{grid-column:1/-1}
   .addform .btn{grid-column:1/-1}
   .rhead{display:none}
   .row{grid-template-columns:1fr 1fr}
@@ -308,7 +308,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 
 /* ---------- Price History ---------- */
 .r-detail{grid-template-columns:minmax(0,1fr)}
-.linkbtn{font:700 11px var(--text);text-transform:uppercase;letter-spacing:.12em;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--ink);padding:0 0 1px;margin-left:10px;cursor:pointer}
+.linkbtn{font:700 11px var(--text);text-transform:uppercase;letter-spacing:.12em;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--ink);padding:0 0 1px;margin-left:10px;cursor:pointer;text-decoration:none}
 .linkbtn:hover{color:var(--red);border-color:var(--red)}
 .hpick{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;max-width:520px}
 .hcard{padding:22px 22px 14px}
@@ -344,14 +344,20 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 .tip{position:absolute;pointer-events:none;transform:translate(-50%,-100%);background:var(--ink);color:var(--paper);padding:5px 9px;font:600 13px var(--text);white-space:nowrap;opacity:0;transition:opacity .1s;z-index:2}
 .tip.on{opacity:1}
 .hnone{padding:30px 10px;text-align:center;color:var(--muted);font:italic 400 17px var(--text)}
-.hform{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:14px;align-items:end}
+.hform{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.7fr) auto;gap:14px;align-items:end}
 .hform .btn{height:44px}
 .hrows{list-style:none;margin:0;padding:0}
-.hhead,.hrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 110px;gap:12px;align-items:center;padding:12px 18px}
+.hhead,.hrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.7fr) 270px;gap:12px;align-items:center;padding:12px 18px}
 .hhead{font:600 11px var(--text);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);border-bottom:2px solid var(--ink)}
 .hrow+.hrow{border-top:1px solid var(--rule)}
 .hrow .in{font-size:16px}
-.hrow .r-act{justify-content:flex-end}
+.hrow .r-act{justify-content:flex-end;align-items:center;gap:6px}
+.hprin{font:italic 400 17px var(--text);color:var(--muted);margin-top:4px}
+.r-name{display:flex;flex-direction:column;gap:6px;min-width:0}
+.sm-in{height:30px;font:italic 400 15px var(--text);border-color:var(--rule);padding:0 10px}
+.sm-in:focus{border-color:var(--ink)}
+.r-act .linkbtn{margin:0 4px 0 0;align-self:center;white-space:nowrap}
+.r-act{flex-wrap:nowrap}
 .hrow .tag{margin-left:6px}
 .hwarn{border:1px solid var(--rust);background:var(--rust-bg);color:var(--rust);padding:10px 14px;font:600 15px/1.4 var(--text)}
 @media (max-width:700px){
@@ -360,10 +366,11 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   .hstat,.hstat+.hstat{padding:9px 0;border-left:0}
   .hstat+.hstat{border-top:1px solid var(--rule)}
   .hform{grid-template-columns:1fr 1fr}
-  .hform .btn{grid-column:1/-1}
+  .hform .f-rem,.hform .btn{grid-column:1/-1}
   .hhead{display:none}
   .hrow{grid-template-columns:1fr 1fr;padding:12px 14px}
-  .hrow .r-act{grid-column:1/-1;justify-content:flex-start}
+  .hrow .r-rem,.hrow .r-act{grid-column:1/-1}
+  .hrow .r-act{justify-content:space-between}
 }
 </style>
 </head>
@@ -534,7 +541,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Referensi COGS &middot; Google Sheet</span><span class="dateline"></span></div>
     <h2 id="h-ref">Price Reference</h2>
-    <p>Daftar COGS per produk. Terapkan satu baris ke halaman Harga Jual, atau simpan remarks di tiap baris. Catatan harga per MT ada di tab Price History.</p>
+    <p>Daftar COGS per produk beserta principal-nya. Terapkan satu baris ke halaman Harga Jual, atau buka Price History untuk melihat dan mencatat harga per MT.</p>
   </div>
 
   <div class="card" id="sheetBox">
@@ -587,6 +594,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
       <h3 class="h3" style="font-size:21px">Tambah produk</h3>
       <div class="addform">
         <div class="field f-name"><label for="aName">Nama produk</label><input id="aName" class="in" type="text" placeholder="mis. Garlic Powder 100 mesh"></div>
+        <div class="field f-prin"><label for="aPrin">Principal</label><input id="aPrin" class="in" type="text" placeholder="mis. nama pabrik / supplier"></div>
         <div class="field"><label for="aCat">Kategori</label>
           <select id="aCat" class="in"><option value="industrial">Industrial</option><option value="consumer">Consumer Goods</option></select></div>
         <div class="field"><label for="aCogs">COGS</label>
@@ -607,7 +615,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
       </div>
     </div>
     <div class="card flush">
-      <div class="rhead" aria-hidden="true"><span>Produk</span><span>Kategori</span><span>COGS (Rp/kg)</span><span></span></div>
+      <div class="rhead" aria-hidden="true"><span>Produk / principal</span><span>Kategori</span><span>COGS (Rp/kg)</span><span></span></div>
       <ul class="rows" id="rows"></ul>
     </div>
   </div>
@@ -633,6 +641,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 
     <div class="card hcard">
       <h3 class="htitle" id="hTitle">–</h3>
+      <div class="hprin" id="hPrinLine" hidden></div>
       <div class="hstats" id="hStats"></div>
       <div class="chartbox" id="hChartBox">
         <div id="hChart"></div>
@@ -646,12 +655,13 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
         <div class="field"><label for="hDate">Last update</label><input id="hDate" class="in" type="date"></div>
         <div class="field"><label for="hPrice">Harga terbaru</label>
           <div class="inp"><span class="pre">$</span><input id="hPrice" type="number" inputmode="decimal" min="0" step="any"><span class="suf">/MT</span></div></div>
+        <div class="field f-rem"><label for="hRem">Remarks</label><input id="hRem" class="in" type="text" placeholder="mis. FOB, valid sampai akhir bulan"></div>
         <button type="submit" class="btn primary">Tambah</button>
       </div>
     </form>
 
     <div class="card flush">
-      <div class="hhead" aria-hidden="true"><span>Last update</span><span>Harga (USD/MT)</span><span></span></div>
+      <div class="hhead" aria-hidden="true"><span>Last update</span><span>Harga (USD/MT)</span><span>Remarks</span><span></span></div>
       <ul class="hrows" id="hRows"></ul>
     </div>
   </div>
@@ -680,7 +690,7 @@ const TIERS = [
   {m:15, name:'Good margin', tone:'good'},
   {m:25, name:'High margin', tone:'high'}
 ];
-const HEADER = ['Produk','Kategori','COGS (Rp/kg)','Harga terbaru (USD/kg)','Remarks','Diperbarui'];
+const HEADER = ['Produk','Kategori','COGS (Rp/kg)','Harga terbaru (USD/kg)','Remarks','Diperbarui','Principal'];
 const ROUTES = {'harga-jual':'p-harga','estimasi-cogs':'p-est','price-reference':'p-ref','price-history':'p-hist'};
 const DEFAULT_EST = {rate:'16500',buy:'2400',fcl:'20',apac:'150',clear:'35000000'};
 
@@ -693,7 +703,6 @@ const S = {
 let items = [];
 let hist = [];
 let cfg = {url:'',key:''};
-const openRows = {};
 let query = '';
 
 /* ---------- util ---------- */
@@ -896,30 +905,21 @@ $('#applyEst').addEventListener('click',()=>{
 
 /* ---------- render: halaman 3 ---------- */
 const catLabel = c => c==='industrial' ? 'Industrial' : 'Consumer Goods';
-function sumText(p){
-  return p.remarks||'';
-}
 function rowHTML(p){
-  const o=!!openRows[p.id], s=sumText(p);
-  return '<li class="row" data-id="'+p.id+'" data-open="'+(o?1:0)+'">'+
-    '<div class="r-name"><input class="in" data-f="name" value="'+esc(p.name)+'" placeholder="Nama produk" aria-label="Nama produk"></div>'+
+  return '<li class="row" data-id="'+p.id+'">'+
+    '<div class="r-name"><input class="in" data-f="name" value="'+esc(p.name)+'" placeholder="Nama produk" aria-label="Nama produk"><input class="in sm-in" data-f="principal" value="'+esc(p.principal||'')+'" placeholder="Principal" aria-label="Principal"></div>'+
     '<div><select class="in" data-f="cat" aria-label="Kategori"><option value="industrial"'+(p.cat==='industrial'?' selected':'')+'>Industrial</option><option value="consumer"'+(p.cat!=='industrial'?' selected':'')+'>Consumer Goods</option></select></div>'+
     '<div class="inp"><span class="pre">Rp</span><input type="number" inputmode="decimal" min="0" step="any" data-f="cogs" value="'+(p.cogs==null?'':p.cogs)+'" aria-label="COGS Rp per kg"><span class="suf">/kg</span></div>'+
     '<div class="r-act">'+
-      '<button type="button" class="btn sm" data-act="detail" aria-expanded="'+o+'">Remarks</button>'+
+      '<a class="linkbtn" href="#price-history" data-act="hist">Price history</a>'+
       '<button type="button" class="btn sm primary" data-act="apply"'+(p.cogs>0?'':' disabled')+'>Terapkan</button>'+
       '<button type="button" class="btn sm ghost danger" data-act="del" aria-label="Hapus produk">Hapus</button>'+
-    '</div>'+
-    '<div class="r-sum"'+(s?'':' hidden')+'><span class="chip">Remarks</span><span class="sumtxt">'+esc(s)+'</span></div>'+
-    '<div class="r-detail">'+
-      '<div class="field"><label>Remarks</label><input class="in" type="text" data-f="remarks" value="'+esc(p.remarks||'')+'" placeholder="mis. spesifikasi, supplier, catatan khusus" aria-label="Remarks"></div>'+
-      '<div class="cap"><span class="upd">'+(p.upd?'Terakhir diperbarui '+dateLabel(p.upd):'')+'</span><button type="button" class="linkbtn" data-act="hist">Lihat riwayat harga</button></div>'+
     '</div>'+
   '</li>';
 }
 function renderRows(){
   const terms = String(query).toLowerCase().split(/\s+/).filter(Boolean);
-  const list = items.filter(p=>(S.filter==='all'||p.cat===S.filter||(S.filter==='consumer'&&p.cat!=='industrial')) && terms.every(t=>String(p.name||'').toLowerCase().includes(t)));
+  const list = items.filter(p=>(S.filter==='all'||p.cat===S.filter||(S.filter==='consumer'&&p.cat!=='industrial')) && terms.every(t=>(String(p.name||'')+' '+String(p.principal||'')).toLowerCase().includes(t)));
   const byName=(a,b)=>String(a.name||'').localeCompare(String(b.name||''),'id',{numeric:true,sensitivity:'base'});
   if(S.sort==='az') list.sort(byName); else if(S.sort==='za') list.sort((a,b)=>byName(b,a));
   const cCon=items.filter(p=>p.cat!=='industrial').length, cInd=items.filter(p=>p.cat==='industrial').length;
@@ -938,12 +938,9 @@ $('#rows').addEventListener('input',e=>{
   const v=e.target.value;
   if(f==='name') p.name=v;
   else if(f==='cogs') p.cogs = v==='' ? null : parseFloat(v);
-  else if(f==='remarks') p.remarks=v;
+  else if(f==='principal') p.principal=v;
   p.upd=today();
   li.querySelector('[data-act="apply"]').disabled=!(p.cogs>0);
-  const s=sumText(p), box=li.querySelector('.r-sum');
-  box.hidden=!s; li.querySelector('.sumtxt').textContent=s;
-  li.querySelector('.r-detail .upd').textContent='Terakhir diperbarui '+dateLabel(p.upd);
   touch(p.id);
 });
 $('#rows').addEventListener('change',e=>{
@@ -955,11 +952,8 @@ $('#rows').addEventListener('click',e=>{
   const b=e.target.closest('[data-act]'); if(!b) return;
   const li=b.closest('.row'), p=findItem(li.dataset.id); if(!p) return;
   const act=b.dataset.act;
-  if(act==='detail'){
-    openRows[p.id]=!openRows[p.id];
-    li.dataset.open=openRows[p.id]?1:0; b.setAttribute('aria-expanded',String(!!openRows[p.id]));
-  } else if(act==='hist'){
-    S.hProd=p.id; saveState(false); location.hash='price-history';
+  if(act==='hist'){
+    e.preventDefault(); S.hProd=p.id; saveState(false); location.hash='price-history';
   } else if(act==='apply'){
     S.cogs=String(Math.round(p.cogs)); S.src=p.name||'Price Reference'; syncInputs(); saveState(); refresh();
     location.hash='harga-jual'; toast('COGS '+(p.name||'produk')+' diterapkan ke Harga Jual');
@@ -976,9 +970,9 @@ $('#addForm').addEventListener('submit',e=>{
   const name=$('#aName').value.trim();
   if(!name){ $('#aName').focus(); toast('Isi nama produk dulu'); return; }
   const c=$('#aCogs').value;
-  const np={id:uid(),name,cat:$('#aCat').value,cogs:c===''?null:parseFloat(c),usd:null,remarks:'',upd:today()};
+  const np={id:uid(),name,principal:$('#aPrin').value.trim(),cat:$('#aCat').value,cogs:c===''?null:parseFloat(c),usd:null,remarks:'',upd:today()};
   items.unshift(np);
-  $('#aName').value=''; $('#aCogs').value='';
+  $('#aName').value=''; $('#aPrin').value=''; $('#aCogs').value='';
   if(S.filter!=='all' && S.filter!==$('#aCat').value){ S.filter='all'; syncInputs(); saveState(false); }
   query=''; $('#qProd').value='';
   touch(np.id); renderRows(); $('#aName').focus(); toast('Produk ditambahkan');
@@ -1000,7 +994,7 @@ function seedHist(){
   items.forEach(p=>{
     if(!(p.usd>0)) return;
     const id='m'+p.id; if(hist.some(h=>h.id===id)) return;
-    hist.push({id:id,pid:p.id,price:Math.round(p.usd*1000*100)/100,date:ISO.test(p.upd)?p.upd:today()});
+    hist.push({id:id,pid:p.id,price:Math.round(p.usd*1000*100)/100,date:ISO.test(p.upd)?p.upd:today(),remarks:p.remarks||''});
     histChanged('upsert',id);
   });
 }
@@ -1054,6 +1048,7 @@ function renderHistTop(){
   const p=curProd(); if(!p) return;
   const es=entriesOf(p.id);
   $('#hTitle').textContent=p.name||'(tanpa nama)';
+  const pl=$('#hPrinLine'); pl.hidden=!p.principal; pl.textContent=p.principal?'Principal: '+p.principal:'';
   if(!es.length){ $('#hStats').innerHTML=''; }
   else {
     const mx=es.reduce((a,b)=>b.price>a.price?b:a), mn=es.reduce((a,b)=>b.price<a.price?b:a), lt=es[es.length-1];
@@ -1066,7 +1061,8 @@ function histRowHTML(h){
   return '<li class="hrow" data-id="'+h.id+'">'+
     '<div><input class="in" type="date" data-f="date" value="'+esc(h.date)+'" aria-label="Tanggal"></div>'+
     '<div class="inp"><span class="pre">$</span><input type="number" inputmode="decimal" min="0" step="any" data-f="price" value="'+h.price+'" aria-label="Harga USD per MT"><span class="suf">/MT</span></div>'+
-    '<div class="r-act"><button type="button" class="btn sm ghost danger" data-act="hdel" aria-label="Hapus catatan">Hapus</button></div>'+
+    '<div class="r-rem"><input class="in" type="text" data-f="remarks" value="'+esc(h.remarks||'')+'" placeholder="Remarks" aria-label="Remarks"></div>'+
+    '<div class="r-act"><button type="button" class="linkbtn" data-act="happly" title="Isi Buy price di Estimasi COGS dengan harga ini">Terapkan ke buy price</button><button type="button" class="btn sm ghost danger" data-act="hdel" aria-label="Hapus catatan">Hapus</button></div>'+
   '</li>';
 }
 function renderHistRows(){
@@ -1079,11 +1075,11 @@ function renderHist(){
   const has0 = items.length>0;
   $('#hEmpty').hidden=has0; $('#hBody').hidden=!has0;
   if(!has0) return;
-  const sorted=items.slice().sort(byName), sig=sorted.map(p=>p.id+'|'+p.name).join('\n');
+  const sorted=items.slice().sort(byName), sig=sorted.map(p=>p.id+'|'+p.name+'|'+(p.principal||'')).join('\n');
   const cur=curProd();
   if(sig!==hSig){
     hSig=sig;
-    $('#hProd').innerHTML=sorted.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.name||'(tanpa nama)')+'</option>').join('');
+    $('#hProd').innerHTML=sorted.map(p=>'<option value="'+esc(p.id)+'">'+esc((p.name||'(tanpa nama)')+(p.principal?' · '+p.principal:''))+'</option>').join('');
   }
   $('#hProd').value=cur.id;
   if(!$('#hDate').value) $('#hDate').value=today();
@@ -1096,19 +1092,27 @@ $('#hForm').addEventListener('submit',e=>{
   const price=parseFloat($('#hPrice').value), date=$('#hDate').value;
   if(!(price>0)){ $('#hPrice').focus(); toast('Isi harga terbaru dulu'); return; }
   if(!ISO.test(date)){ $('#hDate').focus(); toast('Pilih tanggal dulu'); return; }
-  const h={id:uid(),pid:p.id,price:price,date:date};
+  const h={id:uid(),pid:p.id,price:price,date:date,remarks:$('#hRem').value.trim()};
   hist.push(h); histChanged('upsert',h.id);
-  $('#hPrice').value=''; renderHist(); $('#hPrice').focus(); toast('Catatan harga ditambahkan');
+  $('#hPrice').value=''; $('#hRem').value=''; renderHist(); $('#hPrice').focus(); toast('Catatan harga ditambahkan');
 });
 $('#hRows').addEventListener('input',e=>{
   const f=e.target.dataset.f; if(!f) return;
   const li=e.target.closest('.hrow'), h=hist.find(x=>x.id===li.dataset.id); if(!h) return;
   if(f==='price'){ const v=parseFloat(e.target.value); if(!(v>0)) return; h.price=v; }
+  else if(f==='remarks'){ h.remarks=e.target.value; }
   else { if(!ISO.test(e.target.value)) return; h.date=e.target.value; }
   histChanged('upsert',h.id); renderHistTop();
 });
 $('#hRows').addEventListener('change',e=>{ if(e.target.dataset.f==='date') renderHistRows(); });
 $('#hRows').addEventListener('click',e=>{
+  const ap=e.target.closest('[data-act="happly"]');
+  if(ap){
+    const h=hist.find(x=>x.id===ap.closest('.hrow').dataset.id); if(!h) return;
+    S.est.buy=String(h.price); syncInputs(); saveState(); refresh();
+    location.hash='estimasi-cogs'; toast('Buy price '+usdMt(h.price)+'/MT diterapkan ke Estimasi COGS');
+    return;
+  }
   const b=e.target.closest('[data-act="hdel"]'); if(!b) return;
   const li=b.closest('.hrow'), id=li.dataset.id;
   if(b.dataset.armed==='1'){ hist=hist.filter(x=>x.id!==id); histChanged('delete',id); renderHist(); toast('Catatan dihapus'); }
@@ -1168,16 +1172,16 @@ const LSK = 'kalkulator-harga-jual:v2:';
 const lsGet = k => { try{ return JSON.parse(localStorage.getItem(LSK+k)); }catch(e){ return null; } };
 const lsSet = (k,v) => { try{ localStorage.setItem(LSK+k,JSON.stringify(v)); }catch(e){} };
 let pending = {}, stateDirty = 0, ver = Date.now();
-let hpending = {}, histOK = null, deferredHist = false;
+let hpending = {}, histOK = null, srvOld = false, deferredHist = false;
 let syncing = false, resync = false, flushT = null, lastSync = 0, deferredRender = false, sheetErrShown = false;
 
 const normItem = r => ({
   id:String(r.id||uid()), name:String(r.name==null?'':r.name), cat:r.cat==='industrial'?'industrial':'consumer',
-  cogs:num(r.cogs), usd:num(r.usd), remarks:String(r.remarks==null?'':r.remarks), upd:String(r.upd||'')
+  cogs:num(r.cogs), usd:num(r.usd), remarks:String(r.remarks==null?'':r.remarks), upd:String(r.upd||''), principal:String(r.principal==null?'':r.principal)
 });
-const sigOf = p => [p.id,p.name,p.cat,p.cogs,p.usd,p.remarks,p.upd].join('\u0001');
+const sigOf = p => [p.id,p.name,p.principal,p.cat,p.cogs,p.usd,p.remarks,p.upd].join('\u0001');
 const npend = () => Object.keys(pending).length + Object.keys(hpending).length + (stateDirty?1:0);
-const normHist = r => ({ id:String(r.id||uid()), pid:String(r.pid||''), price:Number(num(r.price)), date:String(r.date||'') });
+const normHist = r => ({ id:String(r.id||uid()), pid:String(r.pid||''), price:Number(num(r.price)), date:String(r.date||''), remarks:String(r.remarks==null?'':r.remarks) });
 const timeLabel = t => new Date(t).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
 const findItem = id => items.find(p=>p.id===id);
 
@@ -1218,6 +1222,7 @@ async function api(payload,opts){
   if(!j || j.ok!==true || j.app!=='kalkulator' || !Array.isArray(j.products)) throw {code:'wrong',snippet:txt.slice(0,140)};
   return j;
 }
+const OLDMSG = 'Code.gs di Apps Script belum versi terbaru, jadi riwayat harga, remarks catatan, dan principal belum tersimpan di Sheet (tetap aman di perangkat ini). Tempel Code.gs terbaru, lalu Deploy sebagai New version.';
 function errText(e){
   const c=e&&e.code;
   if(c==='auth') return 'Kunci tidak cocok dengan yang ada di Code.gs.';
@@ -1238,7 +1243,10 @@ function mergeRemote(list){
     if(pd && pd.op==='delete') return;
     seen[r.id]=1;
     const loc = pd && pd.op==='upsert' ? findItem(r.id) : null;
-    next.push(loc || normItem(r));
+    if(loc){ next.push(loc); return; }
+    const ni=normItem(r), old=findItem(r.id);
+    if(r.principal===undefined && old) ni.principal=old.principal;
+    next.push(ni);
   });
   items.forEach(p=>{ const pd=pending[p.id]; if(!seen[p.id] && pd && pd.op==='upsert') next.unshift(p); });
   const same = next.length===items.length && next.every((p,i)=>sigOf(p)===sigOf(items[i]));
@@ -1258,12 +1266,13 @@ function mergeHist(list){
     seen[id]=1;
     const loc = pd && pd.op==='upsert' ? hist.find(h=>h.id===id) : null;
     if(loc){ next.push(loc); return; }
-    const h=normHist(r);
+    const h=normHist(r), oh=hist.find(x=>x.id===id);
+    if(r.remarks===undefined && oh) h.remarks=oh.remarks;
     if(!h.pid || !items.some(p=>p.id===h.pid)){ const k=String(r.name||'').trim().toLowerCase(); if(byN[k]) h.pid=byN[k]; }
     next.push(h);
   });
   hist.forEach(h=>{ const pd=hpending[h.id]; if(!seen[h.id] && pd && pd.op==='upsert') next.push(h); });
-  const sig=a=>a.map(h=>[h.id,h.pid,h.price,h.date].join('\u0001')).join('\n');
+  const sig=a=>a.map(h=>[h.id,h.pid,h.price,h.date,h.remarks].join('\u0001')).join('\n');
   const same=sig(next)===sig(hist);
   hist=next; lsSave();
   if(!same){
@@ -1287,7 +1296,7 @@ async function sync(opts){
   Object.keys(hpending).forEach(id=>{
     const pd=hpending[id]; hsent[id]=pd.n;
     if(pd.op==='delete') hops.push({op:'delete',id:id});
-    else { const h=hist.find(x=>x.id===id); if(h){ const p=findItem(h.pid); hops.push({op:'upsert',item:{id:h.id,pid:h.pid,name:p?p.name:'',price:h.price,date:h.date}}); } else delete hpending[id]; }
+    else { const h=hist.find(x=>x.id===id); if(h){ const p=findItem(h.pid); hops.push({op:'upsert',item:{id:h.id,pid:h.pid,name:p?p.name:'',price:h.price,date:h.date,remarks:h.remarks||''}}); } else delete hpending[id]; }
   });
   const sentState=stateDirty;
   if(ops.length||hops.length||sentState) setSave('saving');
@@ -1299,7 +1308,7 @@ async function sync(opts){
     const have={}; j.products.forEach(r=>{ have[String(r.id)]=1; });
     const miss=ops.filter(o=>o.op==='upsert' && !have[String(o.item.id)]).length;
     if(miss) throw {code:'missing',count:miss};
-    const hOK=Array.isArray(j.history); histOK=hOK;
+    const hOK=Array.isArray(j.history); histOK=hOK; srvOld=!(j.v>=4);
     if(hOK){
       const hh={}; j.history.forEach(r=>{ hh[String(r.id)]=1; });
       const hm=hops.filter(o=>o.op==='upsert' && !hh[String(o.item.id)]).length;
@@ -1316,7 +1325,8 @@ async function sync(opts){
     if(opts.applyState && j.state && !stateDirty) applyRemoteState(j.state);
     lsSave(); lastSync=Date.now(); ok=true;
     setSave(npend()?'saving':'saved');
-    if(sheetErrShown){ sheetMsg(''); sheetErrShown=false; }
+    if(srvOld){ sheetMsg(OLDMSG,'err'); sheetErrShown=true; }
+    else if(sheetErrShown){ sheetMsg(''); sheetErrShown=false; }
   }catch(err){
     setSave('error'); sheetMsg(errText(err),'err'); sheetErrShown=true;
   }
@@ -1343,8 +1353,8 @@ function updateSheetUI(){
     ? 'Belum terhubung. Data hanya tersimpan di perangkat ini. Klik Atur untuk menghubungkan Google Sheet.'
     : 'Terhubung ke Google Sheet'+(lastSync?' · sinkron terakhir '+timeLabel(lastSync):'')+(n?' · '+n+' perubahan menunggu dikirim':'');
   if(!conn) setSave('off');
-  const hw=$('#hWarn'); hw.hidden=!(conn && histOK===false);
-  hw.textContent='Code.gs di Apps Script belum versi terbaru, jadi catatan harga baru tersimpan di perangkat ini saja. Tempel Code.gs terbaru, lalu Deploy sebagai New version.';
+  const hw=$('#hWarn'); hw.hidden=!(conn && (histOK===false || srvOld));
+  hw.textContent=OLDMSG;
 }
 $('#sheetToggle').addEventListener('click',()=>{
   const f=$('#sheetForm'), open=f.hidden;
