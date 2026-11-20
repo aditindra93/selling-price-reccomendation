@@ -306,6 +306,17 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   .brand b{font-size:21px}
 }
 
+/* ---------- mata uang & hitung balik ---------- */
+.curbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0 4px}
+.curbar .lbl{font:600 11.5px var(--text);text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.curnote{font:italic 400 15.5px var(--text);color:var(--muted)}
+.curnote a{color:var(--ink)}
+.trail td:nth-child(2),.trail td:nth-child(3){white-space:normal}
+.trail.steps td:first-child{font-weight:600}
+.trail.steps td:last-child{text-align:right;font-weight:700;white-space:nowrap}
+.trail.steps th:last-child{text-align:right}
+.trail.steps td:nth-child(2){color:var(--muted);font-style:italic}
+
 /* ---------- Price History ---------- */
 .r-detail{grid-template-columns:minmax(0,1fr)}
 .linkbtn{font:700 11px var(--text);text-transform:uppercase;letter-spacing:.12em;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--ink);padding:0 0 1px;margin-left:10px;cursor:pointer;text-decoration:none}
@@ -411,15 +422,26 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="split">
     <div class="stack">
       <div class="group">
-        <label class="frow" for="inCogs"><span class="k">COGS produk</span><span class="v"><span class="u">Rp</span><input id="inCogs" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
+        <label class="frow" for="inCogs"><span class="k">COGS produk</span><span class="v"><span class="u cur-u">Rp</span><input id="inCogs" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
         <label class="frow" for="inBiaya"><span class="k">Biaya lain (kemasan / ongkir)</span><span class="v"><span class="u">Rp</span><input id="inBiaya" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
         <div class="frow static"><span class="k" id="lblStep">Pembulatan ke atas</span>
           <div class="v"><div class="seg" role="group" aria-labelledby="lblStep" data-seg="step" data-num="1">
             <button type="button" data-v="0">Tanpa</button><button type="button" data-v="500">500</button><button type="button" data-v="1000">1.000</button>
+          </div>
+          <div class="seg" role="group" aria-labelledby="lblStep" data-seg="stepU" data-num="1" hidden>
+            <button type="button" data-v="0">Tanpa</button><button type="button" data-v="0.01">$0,01</button><button type="button" data-v="0.05">$0,05</button>
           </div></div>
         </div>
       </div>
+      <div class="curbar">
+        <span class="lbl" id="lblCur">Mata uang</span>
+        <div class="seg" role="group" aria-labelledby="lblCur" data-seg="cur">
+          <button type="button" data-v="idr">IDR (Rp)</button><button type="button" data-v="usd">USD ($)</button>
+        </div>
+        <span class="curnote" id="curNote"></span>
+      </div>
       <p class="note" id="srcNote"></p>
+      <p class="note" id="biayaNote" hidden></p>
     </div>
     <div class="hero">
       <div>
@@ -429,6 +451,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
       <div class="lines">
         <div class="line"><span>Subtotal</span><b id="subTotal">–</b></div>
         <div class="line"><span>Pembulatan</span><b id="addRound">–</b></div>
+        <div class="line"><span>Setara</span><b id="altTotal">–</b></div>
       </div>
     </div>
   </div>
@@ -458,7 +481,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
         <div class="fgroup">
           <label class="frow" id="fMargin" for="inTMargin"><span class="k">Target margin</span><span class="v"><input id="inTMargin" type="number" inputmode="decimal" step="any"><span class="u">%</span></span></label>
           <div id="fPrice" hidden>
-            <label class="frow" for="inTPrice"><span class="k">Target harga jual</span><span class="v"><span class="u">Rp</span><input id="inTPrice" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
+            <label class="frow" for="inTPrice"><span class="k">Target harga jual</span><span class="v"><span class="u cur-u">Rp</span><input id="inTPrice" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
             <div class="frow static"><span class="k" id="lblPin">Harga yang dimasukkan</span>
               <div class="v"><div class="seg" role="group" aria-labelledby="lblPin" data-seg="pin">
                 <button type="button" data-v="0">Sebelum PPN</button><button type="button" data-v="1">Incl. PPN</button>
@@ -499,7 +522,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Impor &middot; USD ke Rupiah</span><span class="dateline"></span></div>
     <h2 id="h-est">Estimasi COGS</h2>
-    <p>Hitung estimasi COGS barang impor. Perhitungan yang lebih pasti bisa dikomparasikan dengan Bu Marcella.</p>
+    <p>Hitung estimasi COGS barang impor. Perhitungan yang lebih pasti  dan detail bisa dikomparasikan dengan Bu Marcella.</p>
   </div>
 
   <div class="split">
@@ -519,7 +542,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
         <div class="num" id="estCogs">–</div>
         <div class="cap" id="estFormula">(Buy price + Margin APAC + Clearance) × rate</div>
       </div>
-      <button type="button" class="btn light" id="applyEst" style="height:44px">Terapkan ke Harga Jual</button>
+      <button type="button" class="btn light" id="applyEst" style="height:44px">Terapkan ke Harga Jual (USD)</button>
     </div>
   </div>
 
@@ -531,6 +554,41 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
           <thead><tr><th>Komponen</th><th>USD / kontainer</th><th>USD / MT</th><th>USD / kg</th></tr></thead>
           <tbody id="trail"></tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack section">
+    <div>
+      <h3 class="h3">Hitung balik: target harga jual ke buy price</h3>
+      <p class="sub">Isi target harga jual dan margin. Rate, kontainer, margin APAC, dan clearance mengikuti isian di atas.</p>
+    </div>
+    <div class="split">
+      <div class="stack">
+        <div class="group">
+          <label class="frow" for="xPrice"><span class="k">Target harga jual</span><span class="v"><span class="u">Rp</span><input id="xPrice" type="number" inputmode="decimal" min="0" step="any"><span class="u">/kg</span></span></label>
+          <label class="frow" for="xMargin"><span class="k">Target margin</span><span class="v"><input id="xMargin" type="number" inputmode="decimal" step="any"><span class="u">%</span></span></label>
+          <div class="frow static"><span class="k" id="lblXPin">Harga target</span>
+            <div class="v"><div class="seg" role="group" aria-labelledby="lblXPin" data-seg="rPin">
+              <button type="button" data-v="0">Sebelum PPN</button><button type="button" data-v="1">Incl. PPN</button>
+            </div></div>
+          </div>
+          <div class="frow static"><span class="k" id="lblXBasis">Margin dihitung dari</span>
+            <div class="v"><div class="seg" role="group" aria-labelledby="lblXBasis" data-seg="basis">
+              <button type="button" data-v="price">Harga jual</button><button type="button" data-v="cogs">COGS</button>
+            </div></div>
+          </div>
+        </div>
+        <p class="sub" id="xFormula"></p>
+        <div class="warn" id="xWarn" role="alert"></div>
+      </div>
+      <div class="hero">
+        <div>
+          <div class="lbl">Buy price maksimal</div>
+          <div class="num" id="xBuy">–</div>
+          <div class="cap" id="xCap"></div>
+        </div>
+        <button type="button" class="btn light" id="applyRev" style="height:44px">Terapkan ke Buy price</button>
       </div>
     </div>
   </div>
@@ -626,7 +684,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   <div class="head">
     <div class="kicker"><span>Catatan harga &middot; USD per MT</span><span class="dateline"></span></div>
     <h2 id="h-hist">Price History</h2>
-    <p>Berdasarkan price update yang diberikan oleh Marvin.</p>
+    <p>Berdasarkan price update yang diberikan oleh Marvin, diharapkan update secara berkala.</p>
   </div>
 
   <div class="hwarn" id="hWarn" role="status" hidden></div>
@@ -696,8 +754,11 @@ const DEFAULT_EST = {rate:'16500',buy:'2400',fcl:'20',apac:'150',clear:'35000000
 
 /* ---------- state ---------- */
 const S = {
-  cogs:'42000', biaya:'1500', step:500, basis:'price', mode:'margin',
-  tMargin:'12', tPrice:'50000', pin:'0', src:'', filter:'all', sort:'new', hProd:'', hSeeded:0,
+  cur:'idr', cogs:'42000', biaya:'1500', step:500, tPrice:'50000',
+  cogsU:'2.5', stepU:0, tPriceU:'3.2',
+  rPrice:'30000', rMargin:'10', rPin:'0',
+  basis:'price', mode:'margin',
+  tMargin:'12', pin:'0', src:'', filter:'all', sort:'new', hProd:'', hSeeded:0,
   est:Object.assign({},DEFAULT_EST)
 };
 let items = [];
@@ -748,8 +809,24 @@ async function copyText(text){
 }
 
 /* ---------- logika harga ---------- */
-function roundUp(v,step){ return step>0 ? Math.ceil(v/step-1e-9)*step : v; }
-function totals(){ const sub=n(S.cogs)+n(S.biaya); const total=roundUp(sub,S.step); return {sub,total,add:total-sub}; }
+function roundUp(v,step){ return step>0 ? Math.round(Math.ceil(v/step-1e-9)*step*1e6)/1e6 : v; }
+const KEYS = {idr:{cogs:'cogs',biaya:'biaya',step:'step',tPrice:'tPrice'}, usd:{cogs:'cogsU',biaya:'biaya',step:'stepU',tPrice:'tPriceU'}};
+const K = () => KEYS[S.cur==='usd'?'usd':'idr'];
+const usdS = v => isFinite(v) ? (v<0?'-':'')+'$'+usdF.format(Math.abs(v)) : '–';
+const mny = v => S.cur==='usd' ? usdS(v) : rp(v);
+function totals(){ const k=K(), rate=n(S.est.rate); const biaya = S.cur==='usd' ? (rate>0 ? n(S.biaya)/rate : 0) : n(S.biaya); const sub=n(S[k.cogs])+biaya; const total=roundUp(sub,S[k.step]); return {sub,total,add:total-sub}; }
+/* ganti mata uang: nilai yang sudah diisi dikonversi dengan kurs dari Estimasi COGS */
+function setCur(c){
+  if(c===S.cur) return;
+  const rate=n(S.est.rate), from=S.cur;
+  if(rate>0){
+    const conv = from==='idr' ? (v=>String(+(n(v)/rate).toFixed(4))) : (v=>String(Math.round(n(v)*rate)));
+    const pairs = from==='idr' ? [['cogs','cogsU'],['tPrice','tPriceU']] : [['cogsU','cogs'],['tPriceU','tPrice']];
+    pairs.forEach(([a,b])=>{ if(has(S[a])) S[b]=conv(S[a]); });
+  }
+  S.cur=c; syncInputs(); saveState(); refresh();
+  toast(rate>0 ? 'Mata uang '+(c==='usd'?'USD':'IDR')+', nilai dikonversi dengan kurs Rp '+idr.format(rate) : 'Mata uang '+(c==='usd'?'USD':'IDR')+'. Isi kurs di Estimasi COGS untuk konversi otomatis');
+}
 function priceFromMargin(c,m,basis){ return basis==='price' ? (m<1 ? c/(1-m) : NaN) : c*(1+m); }
 function marginFromPrice(c,p,basis){ if(!(p>0)||!(c>0)) return NaN; return basis==='price' ? (p-c)/p : (p-c)/c; }
 function statusOf(m){
@@ -788,8 +865,12 @@ function route(){
 window.addEventListener('hashchange',()=>{ route(); window.scrollTo(0,0); });
 
 function syncInputs(){
-  $('#inCogs').value=S.cogs; $('#inBiaya').value=S.biaya;
-  $('#inTMargin').value=S.tMargin; $('#inTPrice').value=S.tPrice;
+  const k=K();
+  $('#inCogs').value=S[k.cogs]; $('#inBiaya').value=S[k.biaya];
+  $('#inTMargin').value=S.tMargin; $('#inTPrice').value=S[k.tPrice];
+  $('#xPrice').value=S.rPrice; $('#xMargin').value=S.rMargin;
+  $$('.cur-u').forEach(el=>{ el.textContent=S.cur==='usd'?'$':'Rp'; });
+  $('[data-seg=step]').hidden=S.cur==='usd'; $('[data-seg=stepU]').hidden=S.cur!=='usd';
   $('#eRate').value=S.est.rate; $('#eBuy').value=S.est.buy; $('#eFcl').value=S.est.fcl; $('#eApac').value=S.est.apac; $('#eClear').value=S.est.clear;
   $$('[data-seg]').forEach(g=>{
     const key=g.dataset.seg;
@@ -799,8 +880,9 @@ function syncInputs(){
   $('#fPrice').hidden = S.mode!=='price';
 }
 
-[['#inCogs',v=>{S.cogs=v;S.src='';}],['#inBiaya',v=>{S.biaya=v;}],
- ['#inTMargin',v=>{S.tMargin=v;}],['#inTPrice',v=>{S.tPrice=v;}],
+[['#inCogs',v=>{S[K().cogs]=v;S.src='';}],['#inBiaya',v=>{S[K().biaya]=v;}],
+ ['#inTMargin',v=>{S.tMargin=v;}],['#inTPrice',v=>{S[K().tPrice]=v;}],
+ ['#xPrice',v=>{S.rPrice=v;}],['#xMargin',v=>{S.rMargin=v;}],
  ['#eRate',v=>{S.est.rate=v;}],['#eBuy',v=>{S.est.buy=v;}],['#eFcl',v=>{S.est.fcl=v;}],['#eApac',v=>{S.est.apac=v;}],['#eClear',v=>{S.est.clear=v;}]
 ].forEach(([sel,fn])=>{
   $(sel).addEventListener('input',e=>{ fn(e.target.value); saveState(); refresh(); });
@@ -810,6 +892,7 @@ document.addEventListener('click',e=>{
   const sb=e.target.closest('[data-seg] button');
   if(sb){
     const g=sb.parentElement, key=g.dataset.seg;
+    if(key==='cur'){ setCur(sb.dataset.v); return; }
     S[key] = g.dataset.num ? Number(sb.dataset.v) : sb.dataset.v;
     syncInputs(); saveState(SYNC_KEYS.indexOf(key)>=0); refresh();
     if(key==='filter'||key==='sort') renderRows();
@@ -824,9 +907,15 @@ function refresh(){ updateP1(); updateP2(); }
 
 function updateP1(){
   const t=totals(), ok=t.total>0;
-  $('#subTotal').textContent=rp(t.sub);
-  $('#addRound').textContent=(t.add>0?'+':'')+rp(t.add);
-  $('#totalCogs').innerHTML=rp(t.total)+'<small>/kg</small>';
+  $('#subTotal').textContent=mny(t.sub);
+  $('#addRound').textContent=(t.add>0?'+':'')+mny(t.add);
+  $('#totalCogs').innerHTML=mny(t.total)+'<small>/kg</small>';
+  const rate=n(S.est.rate);
+  $('#altTotal').textContent = ok && rate>0 ? (S.cur==='usd' ? rp(t.total*rate) : usdS(t.total/rate))+' · kurs '+idr.format(rate) : '–';
+  $('#curNote').innerHTML = rate>0 ? 'Kurs mengikuti Estimasi COGS: <b>Rp '+idr.format(rate)+'</b> per USD' : 'Isi kurs di <a href="#estimasi-cogs">Estimasi COGS</a> untuk konversi otomatis.';
+  const bn=$('#biayaNote');
+  if(S.cur==='usd'){ bn.hidden=false; bn.textContent = rate>0 ? 'Biaya lain tetap dalam Rupiah: '+rp(n(S.biaya))+' ÷ kurs '+idr.format(rate)+' = '+usdS(n(S.biaya)/rate)+'/kg, sudah masuk ke subtotal.' : 'Isi kurs di Estimasi COGS agar biaya lain (Rp) bisa dikonversi ke USD.'; }
+  else bn.hidden=true;
   $('#srcNote').textContent = S.src ? 'COGS diterapkan dari: '+S.src : '';
   $('#basisNote').textContent = S.basis==='price'
     ? 'Margin dihitung dari harga jual: harga = COGS ÷ (1 − margin).'
@@ -837,9 +926,9 @@ function updateP1(){
     const sel = S.mode==='margin' && n(S.tMargin)===x.m;
     return '<button type="button" class="tier" data-m="'+x.m+'" data-tone="'+x.tone+'" aria-pressed="'+sel+'">'+
       '<span class="tier-top"><span class="chip" data-tone="'+x.tone+'">'+x.name+'</span><span class="tier-m">'+x.m+'%</span></span>'+
-      '<span class="tier-price">'+rp(p)+'</span>'+
-      '<span class="tier-line"><span>Incl. PPN</span><b>'+rp(p*(1+PPN))+'</b></span>'+
-      '<span class="tier-line"><span>Profit</span><b>'+rp(p-t.total)+'</b></span>'+
+      '<span class="tier-price">'+mny(p)+'</span>'+
+      '<span class="tier-line"><span>Incl. PPN</span><b>'+mny(p*(1+PPN))+'</b></span>'+
+      '<span class="tier-line"><span>Profit</span><b>'+mny(p-t.total)+'</b></span>'+
     '</button>';
   }).join('');
 
@@ -850,14 +939,14 @@ function updateP1(){
     else if(S.basis==='price' && n(S.tMargin)>=100) warn='Margin dari harga jual harus di bawah 100%.';
     else { m=n(S.tMargin); price=priceFromMargin(t.total,m/100,S.basis); }
   } else {
-    if(!(n(S.tPrice)>0)) warn='Isi target harga jual.';
-    else { price = S.pin==='1' ? n(S.tPrice)/(1+PPN) : n(S.tPrice); m=marginFromPrice(t.total,price,S.basis)*100; }
+    if(!(n(S[K().tPrice])>0)) warn='Isi target harga jual.';
+    else { price = S.pin==='1' ? n(S[K().tPrice])/(1+PPN) : n(S[K().tPrice]); m=marginFromPrice(t.total,price,S.basis)*100; }
   }
   $('#calcWarn').textContent=warn;
   const good=isFinite(price);
-  $('#rPrice').textContent=good?rp(price):'–';
-  $('#rIncl').textContent=good?rp(price*(1+PPN)):'–';
-  $('#rProfit').textContent=good?rp(price-t.total):'–';
+  $('#rPrice').textContent=good?mny(price):'–';
+  $('#rIncl').textContent=good?mny(price*(1+PPN)):'–';
+  $('#rProfit').textContent=good?mny(price-t.total):'–';
   $('#rMargin').textContent=good?pct(m):'–';
   $('#rStatus').innerHTML=good?chip(statusOf(m)):'–';
 
@@ -867,7 +956,7 @@ function updateP1(){
     const p = ok ? priceFromMargin(t.total,i/100,S.basis) : NaN;
     const st=statusOf(i);
     html+='<tr'+(st.key!==prev&&prev?' class="zone"':'')+(i===cur?' aria-current="true"':'')+'>'+
-      '<td>'+i+'%</td><td>'+rp(p)+'</td><td>'+rp(p*(1+PPN))+'</td><td>'+rp(p-t.total)+'</td><td>'+chip(st)+'</td></tr>';
+      '<td>'+i+'%</td><td>'+mny(p)+'</td><td>'+mny(p*(1+PPN))+'</td><td>'+mny(p-t.total)+'</td><td>'+chip(st)+'</td></tr>';
     prev=st.key;
   }
   $('#mtable').innerHTML=html;
@@ -896,11 +985,48 @@ function updateP2(){
   $('#estCogs').innerHTML = c.ok ? rp(c.cogs)+'<small>/kg</small>' : '–';
   $('#estFormula').textContent = c.ok ? '('+usd(c.buyKg)+' + '+usd(c.apacKg)+' + '+usd(c.clrKg)+') × '+rp(c.rate) : '(Buy price + Margin APAC + Clearance) × rate';
   $('#applyEst').disabled = !c.ok;
+  updateRev();
 }
+/* ---------- hitung balik: target harga jual -> buy price ---------- */
+let revBuy = NaN;
+function updateRev(){
+  const c=estCalc(), price=n(S.rPrice), m=n(S.rMargin)/100;
+  const priceEx = S.rPin==='1' ? price/(1+PPN) : price;
+  let warn='', ok=true;
+  if(!c.ok){ warn='Isi rate USD/IDR dan full container load (lebih dari 0) di atas.'; ok=false; }
+  else if(!(price>0)){ warn='Isi target harga jual.'; ok=false; }
+  else if(!has(S.rMargin)){ warn='Isi target margin.'; ok=false; }
+  else if(S.basis==='price' && m>=1){ warn='Margin dari harga jual harus di bawah 100%.'; ok=false; }
+  const cogsMax = ok ? (S.basis==='price' ? priceEx*(1-m) : priceEx/(1+m)) : NaN;
+  const cogsKg = cogsMax/c.rate, buyKg = cogsKg-c.apacKg-c.clrKg, buyMt = buyKg*1000;
+  if(ok && !(buyMt>0)) warn='Target terlalu rendah: margin APAC dan clearance saja sudah melampaui COGS maksimal '+rp(cogsMax)+'/kg.';
+  const good = ok && buyMt>0;
+  revBuy = good ? buyMt : NaN;
+  $('#xWarn').textContent=warn;
+  $('#xBuy').innerHTML = good ? usdMt(buyMt)+'<small>/MT</small>' : '–';
+  $('#xCap').textContent = good ? '= '+usd(buyKg)+'/kg · COGS maksimal '+rp(cogsMax)+'/kg' : '';
+  $('#xFormula').textContent='';
+  $('#applyRev').disabled=!good;
+  const generic='Buy price = (harga target × (1 − margin)) ÷ rate − margin APAC − clearance, semua per kg.';
+  if(!ok){ $('#xFormula').textContent=generic; return; }
+  const mp=pct(m*100);
+  const base = S.rPin==='1' ? '('+rp(price)+' ÷ 1,11)' : rp(price);
+  const cogsExpr = S.basis==='price' ? base+' × (1 − '+mp+')' : base+' ÷ (1 + '+mp+')';
+  $('#xFormula').textContent = 'Buy price = ('+cogsExpr+') ÷ '+idr.format(c.rate)+' − '+usd(c.apacKg)+' (APAC) − '+usd(c.clrKg)+' (clearance) = '+usd(buyKg)+'/kg'+(buyMt>0?' ≈ '+usdMt(buyMt)+'/MT':'')+'.';
+}
+$('#applyRev').addEventListener('click',()=>{
+  if(!isFinite(revBuy)) return;
+  S.est.buy=String(Math.round(revBuy*100)/100); syncInputs(); saveState(); refresh();
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+  toast('Buy price '+usdMt(revBuy)+'/MT diterapkan ke tabel input');
+});
+
 $('#applyEst').addEventListener('click',()=>{
   const c=estCalc(); if(!c.ok) return;
-  S.cogs=String(Math.round(c.cogs)); S.src='Estimasi COGS'; syncInputs(); saveState(); refresh();
-  location.hash='harga-jual'; toast('COGS '+rp(c.cogs)+' diterapkan ke Harga Jual');
+  const kg=c.buyKg+c.apacKg+c.clrKg;
+  S.cur='usd'; S.cogsU=String(+kg.toFixed(6)); S.src='Estimasi COGS'; syncInputs(); saveState(); refresh();
+  location.hash='harga-jual'; toast('COGS '+usdS(kg)+'/kg diterapkan ke Harga Jual (USD)');
 });
 
 /* ---------- render: halaman 3 ---------- */
@@ -955,7 +1081,7 @@ $('#rows').addEventListener('click',e=>{
   if(act==='hist'){
     e.preventDefault(); S.hProd=p.id; saveState(false); location.hash='price-history';
   } else if(act==='apply'){
-    S.cogs=String(Math.round(p.cogs)); S.src=p.name||'Price Reference'; syncInputs(); saveState(); refresh();
+    S.cur='idr'; S.cogs=String(Math.round(p.cogs)); S.src=p.name||'Price Reference'; syncInputs(); saveState(); refresh();
     location.hash='harga-jual'; toast('COGS '+(p.name||'produk')+' diterapkan ke Harga Jual');
   } else if(act==='del'){
     if(b.dataset.armed==='1'){ items=items.filter(x=>x.id!==p.id); dropHistOf(p.id); drop(p.id); renderRows(); toast('Produk dihapus'); }
@@ -1167,7 +1293,7 @@ $('#fabSearch').addEventListener('click',()=>{
    Alur: semua perubahan langsung disimpan di perangkat (cache), masuk antrean, lalu dikirim
    ke Apps Script. Tiap sinkron membawa balik data terbaru dari Sheet, jadi semua perangkat
    akhirnya sama. Jika offline, antrean tetap tersimpan dan dikirim saat koneksi kembali. */
-const SYNC_KEYS = ['cogs','biaya','step','basis','mode','tMargin','tPrice','pin','src','est'];
+const SYNC_KEYS = ['cur','cogs','biaya','step','tPrice','cogsU','stepU','tPriceU','rPrice','rMargin','rPin','basis','mode','tMargin','pin','src','est'];
 const LSK = 'kalkulator-harga-jual:v2:';
 const lsGet = k => { try{ return JSON.parse(localStorage.getItem(LSK+k)); }catch(e){ return null; } };
 const lsSet = (k,v) => { try{ localStorage.setItem(LSK+k,JSON.stringify(v)); }catch(e){} };
